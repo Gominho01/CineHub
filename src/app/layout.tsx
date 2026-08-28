@@ -26,6 +26,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/genre/drama" className="hover:text-white">
                 Drama
               </Link>
+              <Link href="/search" className="hover:text-white">
+                Search
+              </Link>
             </nav>
           </div>
         </header>
