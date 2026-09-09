@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { WatchlistButton } from "@/components/WatchlistButton";
 import { backdropUrl, getMovieDetails, posterUrl } from "@/lib/tmdb";
 import type { Video } from "@/types/tmdb";
 
@@ -47,6 +48,10 @@ export default async function MovieDetailPage({ params }: { params: Promise<{ id
           </div>
 
           <p className="mt-6 max-w-2xl leading-relaxed text-white/80">{movie.overview}</p>
+
+          <div className="mt-6">
+            <WatchlistButton movieId={movie.id} title={movie.title} posterPath={movie.poster_path} />
+          </div>
 
           {movie.credits.cast.length > 0 && (
             <div className="mt-8">

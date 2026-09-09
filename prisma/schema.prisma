@@ -13,4 +13,23 @@ model User {
   password  String
   name      String
   createdAt DateTime @default(now())
+
+  watchlist WatchlistItem[]
+}
+
+// TMDB is the source of truth for the movie itself — title/poster are
+// denormalized here just so the watchlist page can render without an extra
+// TMDB call (and stays intact even if TMDB removes the title later).
+model WatchlistItem {
+  id         String   @id @default(cuid())
+  userId     String
+  movieId    Int
+  title      String
+  posterPath String?
+  rating     Int?
+  addedAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, movieId])
 }

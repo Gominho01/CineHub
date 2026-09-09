@@ -1,3 +1,12 @@
+export interface WatchlistItem {
+  id: string;
+  movieId: number;
+  title: string;
+  posterPath: string | null;
+  rating: number | null;
+  addedAt: string;
+}
+
 export interface AuthUser {
   id: string;
   email: string;
@@ -42,5 +51,30 @@ export function loginRequest(email: string, password: string): Promise<AuthResul
   return request<AuthResult>('/auth/login', undefined, {
     method: 'POST',
     body: JSON.stringify({ email, password }),
+  });
+}
+
+export function listWatchlist(token: string): Promise<WatchlistItem[]> {
+  return request<WatchlistItem[]>('/watchlist', token);
+}
+
+export function addToWatchlist(
+  token: string,
+  data: { movieId: number; title: string; posterPath: string | null },
+): Promise<WatchlistItem> {
+  return request<WatchlistItem>('/watchlist', token, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+export function removeFromWatchlist(token: string, movieId: number): Promise<void> {
+  return request<void>(`/watchlist/${movieId}`, token, { method: 'DELETE' });
+}
+
+export function rateWatchlistItem(token: string, movieId: number, rating: number | null): Promise<WatchlistItem> {
+  return request<WatchlistItem>(`/watchlist/${movieId}`, token, {
+    method: 'PATCH',
+    body: JSON.stringify({ rating }),
   });
 }
