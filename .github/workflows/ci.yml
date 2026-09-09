@@ -16,8 +16,11 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npx prisma generate
       - run: npm run lint
       - run: npm test
       - run: npm run build
         env:
           TMDB_API_KEY: dummy-key-for-build
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/cinehub
+          JWT_SECRET: dummy-secret-for-build
