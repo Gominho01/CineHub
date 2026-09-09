@@ -1,6 +1,6 @@
 # CineHub — Movie & TV Explorer
 
-**Status:** 🚧 Planning / not yet implemented
+**Status:** ✅ Phase 1 (MVP) implemented — run `npm run dev` locally to try it (needs a free TMDB API key in `.env`).
 
 ## Overview
 
@@ -51,10 +51,22 @@ The app leans on TMDB for content and imagery — posters, carousels, high-res a
 
 ## Roadmap
 
-1. **Phase 0** — setup: Next.js + TS + Tailwind, free TMDB API key, API client.
-2. **Phase 1** — MVP: home carousels, search, detail page, genre filtering.
-3. **Phase 2** — production deploy on Vercel.
-4. **Phase 3 (stretch)** — auth + watchlist + ratings + recommendations.
+1. **Phase 0** — setup: Next.js + TS + Tailwind, free TMDB API key, API client. ✅ done
+2. **Phase 1** — MVP: home carousels, search, detail page, genre filtering. ✅ done
+3. **Phase 2 — accounts & watchlist**
+   - Auth (JWT or NextAuth.js) + personal watchlist (add/remove titles).
+   - 1–5 rating for titles on the watchlist.
+4. **Phase 3 — recommendations & content**
+   - Basic recommendations ("because you watched X"), based on the most frequent genres in the watchlist.
+   - TV show support (TMDB already exposes `/tv` endpoints), not just movies.
+   - Cast/person detail pages, a "similar movies" section on the detail page.
+5. **Phase 4 — search experience**
+   - Filters on search (genre, year, minimum rating).
+   - Infinite scroll / pagination on search results.
+   - Watch providers ("where to stream," already available from the TMDB API).
+6. **Phase 5 — polish & deploy**
+   - Loading skeletons, light/dark theme.
+   - Production deploy on Vercel (native Next.js environment, no extra infra needed).
 
 ## Project Structure (scaffold only, no logic yet)
 
