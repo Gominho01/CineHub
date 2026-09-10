@@ -9,6 +9,7 @@ export interface AddWatchlistItemParams {
   movieId: number;
   title: string;
   posterPath?: string | null;
+  genreIds?: number[];
 }
 
 export async function addToWatchlist(userId: string, data: AddWatchlistItemParams) {
@@ -25,6 +26,7 @@ export async function addToWatchlist(userId: string, data: AddWatchlistItemParam
       movieId: data.movieId,
       title: data.title,
       posterPath: data.posterPath ?? null,
+      genreIds: data.genreIds ?? [],
     },
   });
 }
