@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { WatchlistButton } from "@/components/WatchlistButton";
 import { backdropUrl, getMovieDetails, posterUrl } from "@/lib/tmdb";
@@ -58,10 +59,10 @@ export default async function MovieDetailPage({ params }: { params: Promise<{ id
               <h2 className="mb-3 text-lg font-semibold">Cast</h2>
               <div className="flex flex-wrap gap-4">
                 {movie.credits.cast.slice(0, 8).map((member) => (
-                  <div key={member.id} className="w-24 text-center text-xs text-white/70">
-                    <p className="font-medium text-white">{member.name}</p>
+                  <Link key={member.id} href={`/person/${member.id}`} className="w-24 text-center text-xs">
+                    <p className="font-medium text-white hover:underline">{member.name}</p>
                     <p className="text-white/50">{member.character}</p>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>

@@ -41,6 +41,18 @@ export interface MovieDetails extends Omit<Movie, "genre_ids"> {
   };
 }
 
+export interface PersonDetails {
+  id: number;
+  name: string;
+  biography: string;
+  profile_path: string | null;
+  known_for_department: string | null;
+  birthday: string | null;
+  movie_credits: {
+    cast: (Movie & { character: string })[];
+  };
+}
+
 export interface PaginatedResponse<T> {
   page: number;
   results: T[];
