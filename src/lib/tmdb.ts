@@ -1,4 +1,4 @@
-import type { Genre, Movie, MovieDetails, PaginatedResponse } from "@/types/tmdb";
+import type { Genre, Movie, MovieDetails, PaginatedResponse, PersonDetails } from "@/types/tmdb";
 
 function required(name: string, fallback?: string): string {
   const value = process.env[name] ?? fallback;
@@ -66,4 +66,10 @@ export function getGenres(): Promise<{ genres: Genre[] }> {
 
 export function getMoviesByGenre(genreId: string, page = 1): Promise<PaginatedResponse<Movie>> {
   return tmdbFetch("/discover/movie", { with_genres: genreId, page: String(page) });
+}
+
+// --- People ---
+
+export function getPersonDetails(id: string): Promise<PersonDetails> {
+  return tmdbFetch(`/person/${id}`, { append_to_response: "movie_credits" });
 }
