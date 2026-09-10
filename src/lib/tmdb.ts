@@ -1,4 +1,12 @@
-import type { Genre, Movie, MovieDetails, PaginatedResponse, PersonDetails } from "@/types/tmdb";
+import type {
+  Genre,
+  Movie,
+  MovieDetails,
+  PaginatedResponse,
+  PersonDetails,
+  TVShow,
+  TVShowDetails,
+} from "@/types/tmdb";
 
 function required(name: string, fallback?: string): string {
   const value = process.env[name] ?? fallback;
@@ -66,6 +74,20 @@ export function getGenres(): Promise<{ genres: Genre[] }> {
 
 export function getMoviesByGenre(genreId: string, page = 1): Promise<PaginatedResponse<Movie>> {
   return tmdbFetch("/discover/movie", { with_genres: genreId, page: String(page) });
+}
+
+// --- TV shows ---
+
+export function getTrendingTV(page = 1): Promise<PaginatedResponse<TVShow>> {
+  return tmdbFetch("/trending/tv/week", { page: String(page) });
+}
+
+export function searchTV(query: string, page = 1): Promise<PaginatedResponse<TVShow>> {
+  return tmdbFetch("/search/tv", { query, page: String(page) });
+}
+
+export function getTVShowDetails(id: string): Promise<TVShowDetails> {
+  return tmdbFetch(`/tv/${id}`, { append_to_response: "credits,videos,similar" });
 }
 
 // --- People ---

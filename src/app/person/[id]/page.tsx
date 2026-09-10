@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Carousel } from "@/components/Carousel";
+import { MovieCard } from "@/components/MovieCard";
 import { getPersonDetails, posterUrl } from "@/lib/tmdb";
 
 export const revalidate = 21600; // 6 hours
@@ -34,7 +35,11 @@ export default async function PersonDetailPage({ params }: { params: Promise<{ i
       </div>
 
       <div className="mt-8">
-        <Carousel title="Known For" movies={knownFor} />
+        <Carousel
+          title="Known For"
+          items={knownFor}
+          renderItem={(movie) => <MovieCard key={movie.id} movie={movie} />}
+        />
       </div>
     </div>
   );
