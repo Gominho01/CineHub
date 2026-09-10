@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Carousel } from "@/components/Carousel";
+import { MovieCard } from "@/components/MovieCard";
 import { WatchlistButton } from "@/components/WatchlistButton";
 import { backdropUrl, getMovieDetails, posterUrl } from "@/lib/tmdb";
 import type { Video } from "@/types/tmdb";
@@ -51,7 +53,12 @@ export default async function MovieDetailPage({ params }: { params: Promise<{ id
           <p className="mt-6 max-w-2xl leading-relaxed text-white/80">{movie.overview}</p>
 
           <div className="mt-6">
-            <WatchlistButton movieId={movie.id} title={movie.title} posterPath={movie.poster_path} />
+            <WatchlistButton
+              movieId={movie.id}
+              title={movie.title}
+              posterPath={movie.poster_path}
+              genreIds={movie.genres.map((genre) => genre.id)}
+            />
           </div>
 
           {movie.credits.cast.length > 0 && (
@@ -83,6 +90,12 @@ export default async function MovieDetailPage({ params }: { params: Promise<{ id
           )}
         </div>
       </div>
+
+      <Carousel
+        title="Similar Movies"
+        items={movie.similar.results}
+        renderItem={(similar) => <MovieCard key={similar.id} movie={similar} />}
+      />
     </div>
   );
 }

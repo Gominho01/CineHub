@@ -26,7 +26,7 @@ function renderWithClient() {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return render(
     <QueryClientProvider client={queryClient}>
-      <WatchlistButton movieId={42} title="Dune" posterPath="/dune.jpg" />
+      <WatchlistButton movieId={42} title="Dune" posterPath="/dune.jpg" genreIds={[878]} />
     </QueryClientProvider>,
   );
 }
@@ -71,6 +71,7 @@ describe('WatchlistButton', () => {
         movieId: 42,
         title: 'Dune',
         posterPath: '/dune.jpg',
+        genreIds: [878],
       }),
     );
   });

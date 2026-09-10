@@ -65,7 +65,7 @@ export function searchMovies(query: string, page = 1): Promise<PaginatedResponse
 }
 
 export function getMovieDetails(id: string): Promise<MovieDetails> {
-  return tmdbFetch(`/movie/${id}`, { append_to_response: "credits,videos" });
+  return tmdbFetch(`/movie/${id}`, { append_to_response: "credits,videos,similar" });
 }
 
 export function getGenres(): Promise<{ genres: Genre[] }> {
@@ -74,6 +74,17 @@ export function getGenres(): Promise<{ genres: Genre[] }> {
 
 export function getMoviesByGenre(genreId: string, page = 1): Promise<PaginatedResponse<Movie>> {
   return tmdbFetch("/discover/movie", { with_genres: genreId, page: String(page) });
+}
+
+// Highly rated *and* actually popular — sorted by rating, but only among
+// titles with enough votes to mean something (otherwise a niche movie with
+// three 10/10 votes would outrank a genuinely well-regarded blockbuster).
+export function getTopRatedPopular(page = 1): Promise<PaginatedResponse<Movie>> {
+  return tmdbFetch("/discover/movie", {
+    sort_by: "vote_average.desc",
+    "vote_count.gte": "1000",
+    page: String(page),
+  });
 }
 
 // --- TV shows ---

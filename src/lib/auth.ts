@@ -39,3 +39,14 @@ export async function requireUser(request: Request): Promise<AuthUser> {
 
   return user;
 }
+
+/** Same idea as `requireUser`, for endpoints that personalize when logged in
+ * but still work for anonymous visitors — returns null instead of throwing
+ * for a missing, invalid, or stale session. */
+export async function getOptionalUser(request: Request): Promise<AuthUser | null> {
+  try {
+    return await requireUser(request);
+  } catch {
+    return null;
+  }
+}

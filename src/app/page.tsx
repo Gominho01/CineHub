@@ -1,5 +1,6 @@
 import { Carousel } from "@/components/Carousel";
 import { MovieCard } from "@/components/MovieCard";
+import { RecommendationsCarousel } from "@/components/RecommendationsCarousel";
 import { TVCard } from "@/components/TVCard";
 import { getNowPlaying, getTopRated, getTrending, getTrendingTV } from "@/lib/tmdb";
 import type { Movie, PaginatedResponse, TVShow } from "@/types/tmdb";
@@ -29,6 +30,7 @@ export default async function HomePage() {
 
   return (
     <div>
+      <RecommendationsCarousel />
       <Carousel title="In Theaters" items={nowPlaying} renderItem={(movie) => <MovieCard key={movie.id} movie={movie} />} />
       <Carousel
         title="Trending This Week"

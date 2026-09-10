@@ -1,3 +1,5 @@
+import type { Movie } from '@/types/tmdb';
+
 export interface WatchlistItem {
   id: string;
   movieId: number;
@@ -60,7 +62,7 @@ export function listWatchlist(token: string): Promise<WatchlistItem[]> {
 
 export function addToWatchlist(
   token: string,
-  data: { movieId: number; title: string; posterPath: string | null },
+  data: { movieId: number; title: string; posterPath: string | null; genreIds?: number[] },
 ): Promise<WatchlistItem> {
   return request<WatchlistItem>('/watchlist', token, {
     method: 'POST',
@@ -77,4 +79,14 @@ export function rateWatchlistItem(token: string, movieId: number, rating: number
     method: 'PATCH',
     body: JSON.stringify({ rating }),
   });
+}
+
+export interface Recommendations {
+  genreId: number | null;
+  basis: 'genre' | 'popular';
+  movies: Movie[];
+}
+
+export function getRecommendations(token?: string): Promise<Recommendations> {
+  return request<Recommendations>('/recommendations', token);
 }

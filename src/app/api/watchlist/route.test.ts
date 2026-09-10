@@ -52,10 +52,17 @@ describe('POST /api/watchlist', () => {
     vi.mocked(requireUser).mockResolvedValue(user);
     vi.mocked(addToWatchlist).mockResolvedValue({ id: 'w1', movieId: 42 } as never);
 
-    const response = await POST(makeRequest('POST', { movieId: 42, title: 'Dune', posterPath: '/dune.jpg' }));
+    const response = await POST(
+      makeRequest('POST', { movieId: 42, title: 'Dune', posterPath: '/dune.jpg', genreIds: [878] }),
+    );
 
     expect(response.status).toBe(201);
-    expect(addToWatchlist).toHaveBeenCalledWith('user-1', { movieId: 42, title: 'Dune', posterPath: '/dune.jpg' });
+    expect(addToWatchlist).toHaveBeenCalledWith('user-1', {
+      movieId: 42,
+      title: 'Dune',
+      posterPath: '/dune.jpg',
+      genreIds: [878],
+    });
   });
 
   it('returns 409 when the movie is already on the watchlist', async () => {

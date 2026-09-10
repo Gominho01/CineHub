@@ -9,9 +9,10 @@ interface WatchlistButtonProps {
   movieId: number;
   title: string;
   posterPath: string | null;
+  genreIds: number[];
 }
 
-export function WatchlistButton({ movieId, title, posterPath }: WatchlistButtonProps) {
+export function WatchlistButton({ movieId, title, posterPath, genreIds }: WatchlistButtonProps) {
   const token = useAuthStore((s) => s.token);
   const queryClient = useQueryClient();
 
@@ -28,7 +29,7 @@ export function WatchlistButton({ movieId, title, posterPath }: WatchlistButtonP
   }
 
   const addMutation = useMutation({
-    mutationFn: () => addToWatchlist(token!, { movieId, title, posterPath }),
+    mutationFn: () => addToWatchlist(token!, { movieId, title, posterPath, genreIds }),
     onSuccess: invalidate,
   });
 

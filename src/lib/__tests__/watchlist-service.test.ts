@@ -39,10 +39,10 @@ describe('watchlist service', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(prisma.watchlistItem.create).mockResolvedValue({ id: 'w1' } as any);
 
-    await addToWatchlist('user-1', { movieId: 42, title: 'Dune', posterPath: '/dune.jpg' });
+    await addToWatchlist('user-1', { movieId: 42, title: 'Dune', posterPath: '/dune.jpg', genreIds: [878, 12] });
 
     expect(prisma.watchlistItem.create).toHaveBeenCalledWith({
-      data: { userId: 'user-1', movieId: 42, title: 'Dune', posterPath: '/dune.jpg' },
+      data: { userId: 'user-1', movieId: 42, title: 'Dune', posterPath: '/dune.jpg', genreIds: [878, 12] },
     });
   });
 

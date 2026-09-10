@@ -4,6 +4,7 @@ export const addWatchlistItemSchema = z.object({
   movieId: z.number().int().positive(),
   title: z.string().min(1),
   posterPath: z.string().nullable().optional(),
+  genreIds: z.array(z.number().int()).default([]),
 });
 
 export const updateRatingSchema = z.object({

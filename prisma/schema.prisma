@@ -26,6 +26,10 @@ model WatchlistItem {
   movieId    Int
   title      String
   posterPath String?
+  // Denormalized alongside title/poster, for the same reason — also lets
+  // recommendations be computed from the watchlist without re-fetching
+  // every title from TMDB just to know its genres.
+  genreIds   Int[]
   rating     Int?
   addedAt    DateTime @default(now())
 

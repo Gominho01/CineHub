@@ -39,6 +39,7 @@ export interface MovieDetails extends Omit<Movie, "genre_ids"> {
   videos: {
     results: Video[];
   };
+  similar: PaginatedResponse<Movie>;
 }
 
 export interface TVShow {
