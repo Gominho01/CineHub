@@ -1,6 +1,6 @@
 # CineHub — Movie & TV Explorer
 
-**Status:** ✅ Phase 1 (MVP) implemented — run `npm run dev` locally to try it (needs a free TMDB API key in `.env`).
+**Status:** ✅ Phase 3 implemented — run `npm run dev` locally to try it (needs a free TMDB API key in `.env`).
 
 ## Overview
 
@@ -12,16 +12,17 @@ The app leans on TMDB for content and imagery — posters, carousels, high-res a
 
 ### MVP
 
-- **Home carousels** — "In theaters," "Trending," "Top rated," sourced from the TMDB API and rendered with ISR (revalidated every few hours).
-- **Search** — movies and shows by title, with paginated results.
-- **Title detail page** (`/movie/[id]`) — synopsis, cast, rating, high-resolution poster, embedded trailer (YouTube), statically generated with ISR.
+- **Home carousels** — "In theaters," "Trending," "Top rated," "Trending TV shows," sourced from the TMDB API and rendered with ISR (revalidated every few hours).
+- **Search** — movies and TV shows by title, with paginated results.
+- **Title detail page** (`/movie/[id]`, `/tv/[id]`) — synopsis, cast (linked to person pages), rating, high-resolution poster, embedded trailer (YouTube), "Similar" carousel, statically generated with ISR.
+- **Cast/person pages** (`/person/[id]`) — biography, photo, "known for" carousel.
 - **Genre browsing** (`/genre/[genre]`) — category-based navigation.
+- **Accounts & watchlist** — JWT auth, add/remove titles, 1–5 star rating per title.
+- **Recommendations** — home carousel based on the most frequent genre across the watchlist; for a logged-out visitor or a user with no genre signal yet, falls back to titles that are both highly rated and genuinely popular (`vote_average` sorted, `vote_count ≥ 1000`).
 
 ### Roadmap / stretch goals
 
-- **Personal watchlist** — login (NextAuth.js or JWT) plus add/remove titles, persisted in Postgres.
-- **User ratings** — 1–5 rating for titles on the watchlist.
-- **Basic recommendations** — "because you watched X," based on the most frequent genres in the watchlist.
+- **Search filters** — genre, year, minimum rating; infinite scroll/pagination; watch providers.
 
 ## Tech Stack
 
@@ -54,12 +55,12 @@ The app leans on TMDB for content and imagery — posters, carousels, high-res a
 1. **Phase 0** — setup: Next.js + TS + Tailwind, free TMDB API key, API client. ✅ done
 2. **Phase 1** — MVP: home carousels, search, detail page, genre filtering. ✅ done
 3. **Phase 2 — accounts & watchlist**
-   - Auth (JWT or NextAuth.js) + personal watchlist (add/remove titles).
-   - 1–5 rating for titles on the watchlist.
+   - Auth (JWT) + personal watchlist (add/remove titles). ✅ done
+   - 1–5 rating for titles on the watchlist. ✅ done
 4. **Phase 3 — recommendations & content**
-   - Basic recommendations ("because you watched X"), based on the most frequent genres in the watchlist.
-   - TV show support (TMDB already exposes `/tv` endpoints), not just movies.
-   - Cast/person detail pages, a "similar movies" section on the detail page.
+   - Recommendations based on the most frequent genre in the watchlist, falling back to popular/top-rated titles for logged-out visitors or an empty watchlist. ✅ done
+   - TV show support (browsing, search, detail pages). ✅ done
+   - Cast/person detail pages, a "similar" section on movie and TV detail pages. ✅ done
 5. **Phase 4 — search experience**
    - Filters on search (genre, year, minimum rating).
    - Infinite scroll / pagination on search results.
@@ -94,4 +95,3 @@ npm run dev    # Next.js at http://localhost:3000
 ## Open Questions
 
 - TMDB vs. OMDb as the data source — TMDB has richer metadata and higher-quality imagery.
-- Whether the watchlist (Phase 2) is essential, or the MVP is visually strong enough on its own without it.
