@@ -59,8 +59,10 @@ describe('RecommendationsCarousel', () => {
 
     const { container } = renderWithClient();
 
-    await waitFor(() => expect(getRecommendations).toHaveBeenCalledWith('test-token'));
-    expect(container).toBeEmptyDOMElement();
+    await waitFor(() => {
+      expect(getRecommendations).toHaveBeenCalledWith('test-token');
+      expect(container).toBeEmptyDOMElement();
+    });
   });
 
   it('shows the recommended movies once loaded', async () => {

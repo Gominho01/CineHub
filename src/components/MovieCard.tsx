@@ -22,11 +22,11 @@ export function MovieCard({ movie }: { movie: Movie }) {
             className="object-cover transition-transform group-hover:scale-105"
           />
         ) : (
-          <div className="flex h-full items-center justify-center text-xs text-white/40">
+          <div className="flex h-full items-center justify-center text-xs text-white/50">
             No image
           </div>
         )}
-        <div className="absolute bottom-1 right-1 rounded bg-black/70 px-1.5 py-0.5 text-xs font-medium text-[var(--accent)]">
+        <div className="absolute bottom-1 right-1 rounded bg-black/70 px-1.5 py-0.5 text-xs font-medium text-white/90">
           {movie.vote_average.toFixed(1)}
         </div>
       </div>

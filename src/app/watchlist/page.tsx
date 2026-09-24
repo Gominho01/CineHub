@@ -75,7 +75,7 @@ export default function WatchlistPage() {
                     aria-checked={item.rating === star}
                     aria-label={`${star} star${star > 1 ? 's' : ''}`}
                     onClick={() => rateMutation.mutate({ movieId: item.movieId, rating: star })}
-                    className={star <= (item.rating ?? 0) ? 'text-[var(--accent)]' : 'text-white/30'}
+                    className={star <= (item.rating ?? 0) ? 'text-[var(--accent)]' : 'text-white/50'}
                   >
                     ★
                   </button>

@@ -92,6 +92,11 @@ cinehub/
 npm run dev    # Next.js at http://localhost:3000
 ```
 
+## Known issues
+
+- **No watchlist button on TV show detail pages** — present on `/movie/[id]`, missing on `/tv/[id]`. Blocked on the data model: `WatchlistItem` has no media-type field and is keyed `@@unique([userId, movieId])`, and the watchlist page hardcodes `/movie/${item.movieId}` links. Movie and TV IDs are separate TMDB namespaces that can collide numerically, so wiring the existing button to TV pages as-is risks mislinking someone's watchlist. Needs a schema migration (add a media-type field) plus a backend route and watchlist-page link update before it's safe to add.
+- **Score badge has no star icon** — a `★` prefix was tried but broke `MovieCard.test.tsx`/`TVCard.test.tsx`'s exact `getByText("7.8")` match. Currently color-only; revisit alongside updating those test assertions.
+
 ## Open Questions
 
 - TMDB vs. OMDb as the data source — TMDB has richer metadata and higher-quality imagery.
