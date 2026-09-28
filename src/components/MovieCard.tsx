@@ -26,8 +26,12 @@ export function MovieCard({ movie }: { movie: Movie }) {
             No image
           </div>
         )}
-        <div className="absolute bottom-1 right-1 rounded bg-black/70 px-1.5 py-0.5 text-xs font-medium text-white/90">
-          {movie.vote_average.toFixed(1)}
+        <div
+          className="absolute bottom-1 right-1 flex items-center gap-0.5 rounded bg-black/70 px-1.5 py-0.5 text-xs font-medium text-white/90"
+          aria-label={`Rating ${movie.vote_average.toFixed(1)} out of 10`}
+        >
+          <span aria-hidden="true">★</span>
+          <span>{movie.vote_average.toFixed(1)}</span>
         </div>
       </div>
       <p className="mt-2 line-clamp-1 text-sm font-medium">{movie.title}</p>
