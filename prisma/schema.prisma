@@ -24,6 +24,9 @@ model WatchlistItem {
   id         String   @id @default(cuid())
   userId     String
   movieId    Int
+  // Distinguishes a TMDB movie ID from a TMDB TV ID — the two are separate
+  // namespaces and can collide numerically.
+  mediaType  String   @default("movie")
   title      String
   posterPath String?
   // Denormalized alongside title/poster, for the same reason — also lets
@@ -35,5 +38,5 @@ model WatchlistItem {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, movieId])
+  @@unique([userId, movieId, mediaType])
 }

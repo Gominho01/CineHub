@@ -2,17 +2,24 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
-import { addToWatchlist, listWatchlist, rateWatchlistItem, removeFromWatchlist } from '../lib/api-client';
+import {
+  addToWatchlist,
+  listWatchlist,
+  rateWatchlistItem,
+  removeFromWatchlist,
+  type MediaType,
+} from '../lib/api-client';
 import { useAuthStore } from '../store/auth';
 
 interface WatchlistButtonProps {
   movieId: number;
+  mediaType: MediaType;
   title: string;
   posterPath: string | null;
   genreIds: number[];
 }
 
-export function WatchlistButton({ movieId, title, posterPath, genreIds }: WatchlistButtonProps) {
+export function WatchlistButton({ movieId, mediaType, title, posterPath, genreIds }: WatchlistButtonProps) {
   const token = useAuthStore((s) => s.token);
   const queryClient = useQueryClient();
 
@@ -22,24 +29,24 @@ export function WatchlistButton({ movieId, title, posterPath, genreIds }: Watchl
     enabled: !!token,
   });
 
-  const item = watchlistQuery.data?.find((i) => i.movieId === movieId);
+  const item = watchlistQuery.data?.find((i) => i.movieId === movieId && i.mediaType === mediaType);
 
   function invalidate() {
     queryClient.invalidateQueries({ queryKey: ['watchlist'] });
   }
 
   const addMutation = useMutation({
-    mutationFn: () => addToWatchlist(token!, { movieId, title, posterPath, genreIds }),
+    mutationFn: () => addToWatchlist(token!, { movieId, mediaType, title, posterPath, genreIds }),
     onSuccess: invalidate,
   });
 
   const removeMutation = useMutation({
-    mutationFn: () => removeFromWatchlist(token!, movieId),
+    mutationFn: () => removeFromWatchlist(token!, movieId, mediaType),
     onSuccess: invalidate,
   });
 
   const rateMutation = useMutation({
-    mutationFn: (rating: number) => rateWatchlistItem(token!, movieId, rating),
+    mutationFn: (rating: number) => rateWatchlistItem(token!, movieId, mediaType, rating),
     onSuccess: invalidate,
   });
 

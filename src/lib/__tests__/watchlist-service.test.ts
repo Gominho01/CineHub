@@ -39,10 +39,35 @@ describe('watchlist service', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(prisma.watchlistItem.create).mockResolvedValue({ id: 'w1' } as any);
 
-    await addToWatchlist('user-1', { movieId: 42, title: 'Dune', posterPath: '/dune.jpg', genreIds: [878, 12] });
+    await addToWatchlist('user-1', {
+      movieId: 42,
+      mediaType: 'movie',
+      title: 'Dune',
+      posterPath: '/dune.jpg',
+      genreIds: [878, 12],
+    });
 
     expect(prisma.watchlistItem.create).toHaveBeenCalledWith({
-      data: { userId: 'user-1', movieId: 42, title: 'Dune', posterPath: '/dune.jpg', genreIds: [878, 12] },
+      data: {
+        userId: 'user-1',
+        movieId: 42,
+        mediaType: 'movie',
+        title: 'Dune',
+        posterPath: '/dune.jpg',
+        genreIds: [878, 12],
+      },
+    });
+  });
+
+  it('adds a TV show to the watchlist under its own media type', async () => {
+    vi.mocked(prisma.watchlistItem.findUnique).mockResolvedValue(null);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.mocked(prisma.watchlistItem.create).mockResolvedValue({ id: 'w2' } as any);
+
+    await addToWatchlist('user-1', { movieId: 42, mediaType: 'tv', title: 'Severance', posterPath: null });
+
+    expect(prisma.watchlistItem.findUnique).toHaveBeenCalledWith({
+      where: { userId_movieId_mediaType: { userId: 'user-1', movieId: 42, mediaType: 'tv' } },
     });
   });
 
@@ -50,16 +75,16 @@ describe('watchlist service', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(prisma.watchlistItem.findUnique).mockResolvedValue({ id: 'w1' } as any);
 
-    await expect(addToWatchlist('user-1', { movieId: 42, title: 'Dune', posterPath: null })).rejects.toBeInstanceOf(
-      ConflictError,
-    );
+    await expect(
+      addToWatchlist('user-1', { movieId: 42, mediaType: 'movie', title: 'Dune', posterPath: null }),
+    ).rejects.toBeInstanceOf(ConflictError);
   });
 
   it('removes a movie from the watchlist', async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(prisma.watchlistItem.findUnique).mockResolvedValue({ id: 'w1' } as any);
 
-    await removeFromWatchlist('user-1', 42);
+    await removeFromWatchlist('user-1', 42, 'movie');
 
     expect(prisma.watchlistItem.delete).toHaveBeenCalledWith({ where: { id: 'w1' } });
   });
@@ -67,14 +92,14 @@ describe('watchlist service', () => {
   it('rejects removing a movie that is not on the watchlist', async () => {
     vi.mocked(prisma.watchlistItem.findUnique).mockResolvedValue(null);
 
-    await expect(removeFromWatchlist('user-1', 42)).rejects.toBeInstanceOf(NotFoundError);
+    await expect(removeFromWatchlist('user-1', 42, 'movie')).rejects.toBeInstanceOf(NotFoundError);
   });
 
   it('rates a movie already on the watchlist', async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.mocked(prisma.watchlistItem.findUnique).mockResolvedValue({ id: 'w1' } as any);
 
-    await rateWatchlistItem('user-1', 42, 4);
+    await rateWatchlistItem('user-1', 42, 'movie', 4);
 
     expect(prisma.watchlistItem.update).toHaveBeenCalledWith({ where: { id: 'w1' }, data: { rating: 4 } });
   });
@@ -82,6 +107,6 @@ describe('watchlist service', () => {
   it('rejects rating a movie that is not on the watchlist', async () => {
     vi.mocked(prisma.watchlistItem.findUnique).mockResolvedValue(null);
 
-    await expect(rateWatchlistItem('user-1', 42, 4)).rejects.toBeInstanceOf(NotFoundError);
+    await expect(rateWatchlistItem('user-1', 42, 'movie', 4)).rejects.toBeInstanceOf(NotFoundError);
   });
 });
