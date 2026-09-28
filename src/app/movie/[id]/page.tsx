@@ -55,6 +55,7 @@ export default async function MovieDetailPage({ params }: { params: Promise<{ id
           <div className="mt-6">
             <WatchlistButton
               movieId={movie.id}
+              mediaType="movie"
               title={movie.title}
               posterPath={movie.poster_path}
               genreIds={movie.genres.map((genre) => genre.id)}

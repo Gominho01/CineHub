@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Carousel } from "@/components/Carousel";
 import { TVCard } from "@/components/TVCard";
+import { WatchlistButton } from "@/components/WatchlistButton";
 import { backdropUrl, getTVShowDetails, posterUrl } from "@/lib/tmdb";
 import type { Video } from "@/types/tmdb";
 
@@ -52,6 +53,16 @@ export default async function TVShowDetailPage({ params }: { params: Promise<{ i
           </div>
 
           <p className="mt-6 max-w-2xl leading-relaxed text-white/80">{show.overview}</p>
+
+          <div className="mt-6">
+            <WatchlistButton
+              movieId={show.id}
+              mediaType="tv"
+              title={show.name}
+              posterPath={show.poster_path}
+              genreIds={show.genres.map((genre) => genre.id)}
+            />
+          </div>
 
           {show.credits.cast.length > 0 && (
             <div className="mt-8">

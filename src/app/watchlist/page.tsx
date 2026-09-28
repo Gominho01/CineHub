@@ -22,13 +22,21 @@ export default function WatchlistPage() {
   }
 
   const removeMutation = useMutation({
-    mutationFn: (movieId: number) => removeFromWatchlist(token!, movieId),
+    mutationFn: ({ movieId, mediaType }: { movieId: number; mediaType: 'movie' | 'tv' }) =>
+      removeFromWatchlist(token!, movieId, mediaType),
     onSuccess: invalidate,
   });
 
   const rateMutation = useMutation({
-    mutationFn: ({ movieId, rating }: { movieId: number; rating: number }) =>
-      rateWatchlistItem(token!, movieId, rating),
+    mutationFn: ({
+      movieId,
+      mediaType,
+      rating,
+    }: {
+      movieId: number;
+      mediaType: 'movie' | 'tv';
+      rating: number;
+    }) => rateWatchlistItem(token!, movieId, mediaType, rating),
     onSuccess: invalidate,
   });
 
@@ -59,7 +67,7 @@ export default function WatchlistPage() {
           const poster = posterUrl(item.posterPath);
           return (
             <div key={item.id} className="flex flex-col gap-2">
-              <Link href={`/movie/${item.movieId}`} className="block">
+              <Link href={`/${item.mediaType}/${item.movieId}`} className="block">
                 <div className="relative aspect-[2/3] overflow-hidden rounded-lg bg-white/5">
                   {poster && <Image src={poster} alt={item.title} fill sizes="200px" className="object-cover" />}
                 </div>
@@ -74,7 +82,7 @@ export default function WatchlistPage() {
                     role="radio"
                     aria-checked={item.rating === star}
                     aria-label={`${star} star${star > 1 ? 's' : ''}`}
-                    onClick={() => rateMutation.mutate({ movieId: item.movieId, rating: star })}
+                    onClick={() => rateMutation.mutate({ movieId: item.movieId, mediaType: item.mediaType, rating: star })}
                     className={star <= (item.rating ?? 0) ? 'text-[var(--accent)]' : 'text-white/50'}
                   >
                     ★
@@ -84,7 +92,7 @@ export default function WatchlistPage() {
 
               <button
                 type="button"
-                onClick={() => removeMutation.mutate(item.movieId)}
+                onClick={() => removeMutation.mutate({ movieId: item.movieId, mediaType: item.mediaType })}
                 className="w-fit text-xs text-white/50 underline"
               >
                 Remove

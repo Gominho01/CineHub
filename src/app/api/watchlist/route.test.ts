@@ -59,6 +59,7 @@ describe('POST /api/watchlist', () => {
     expect(response.status).toBe(201);
     expect(addToWatchlist).toHaveBeenCalledWith('user-1', {
       movieId: 42,
+      mediaType: 'movie',
       title: 'Dune',
       posterPath: '/dune.jpg',
       genreIds: [878],

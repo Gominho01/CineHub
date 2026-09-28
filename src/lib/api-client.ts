@@ -1,8 +1,11 @@
 import type { Movie } from '@/types/tmdb';
 
+export type MediaType = 'movie' | 'tv';
+
 export interface WatchlistItem {
   id: string;
   movieId: number;
+  mediaType: MediaType;
   title: string;
   posterPath: string | null;
   rating: number | null;
@@ -62,7 +65,13 @@ export function listWatchlist(token: string): Promise<WatchlistItem[]> {
 
 export function addToWatchlist(
   token: string,
-  data: { movieId: number; title: string; posterPath: string | null; genreIds?: number[] },
+  data: {
+    movieId: number;
+    mediaType: MediaType;
+    title: string;
+    posterPath: string | null;
+    genreIds?: number[];
+  },
 ): Promise<WatchlistItem> {
   return request<WatchlistItem>('/watchlist', token, {
     method: 'POST',
@@ -70,12 +79,17 @@ export function addToWatchlist(
   });
 }
 
-export function removeFromWatchlist(token: string, movieId: number): Promise<void> {
-  return request<void>(`/watchlist/${movieId}`, token, { method: 'DELETE' });
+export function removeFromWatchlist(token: string, movieId: number, mediaType: MediaType): Promise<void> {
+  return request<void>(`/watchlist/${mediaType}/${movieId}`, token, { method: 'DELETE' });
 }
 
-export function rateWatchlistItem(token: string, movieId: number, rating: number | null): Promise<WatchlistItem> {
-  return request<WatchlistItem>(`/watchlist/${movieId}`, token, {
+export function rateWatchlistItem(
+  token: string,
+  movieId: number,
+  mediaType: MediaType,
+  rating: number | null,
+): Promise<WatchlistItem> {
+  return request<WatchlistItem>(`/watchlist/${mediaType}/${movieId}`, token, {
     method: 'PATCH',
     body: JSON.stringify({ rating }),
   });

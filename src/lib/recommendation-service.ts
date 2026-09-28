@@ -40,6 +40,12 @@ export async function getRecommendations(userId: string | null): Promise<Recomme
 }
 
 async function genreFromWatchlist(userId: string): Promise<number | null> {
-  const items = await prisma.watchlistItem.findMany({ where: { userId }, select: { genreIds: true } });
+  // Movie-only: getMoviesByGenre() below only knows the movie genre-id
+  // namespace, and TV genre ids are a separate namespace that can collide
+  // numerically with movie ones.
+  const items = await prisma.watchlistItem.findMany({
+    where: { userId, mediaType: 'movie' },
+    select: { genreIds: true },
+  });
   return mostFrequentGenre(items.map((item) => item.genreIds));
 }

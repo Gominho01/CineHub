@@ -26,7 +26,7 @@ function renderWithClient() {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return render(
     <QueryClientProvider client={queryClient}>
-      <WatchlistButton movieId={42} title="Dune" posterPath="/dune.jpg" genreIds={[878]} />
+      <WatchlistButton movieId={42} mediaType="movie" title="Dune" posterPath="/dune.jpg" genreIds={[878]} />
     </QueryClientProvider>,
   );
 }
@@ -69,6 +69,7 @@ describe('WatchlistButton', () => {
     await waitFor(() =>
       expect(addToWatchlist).toHaveBeenCalledWith('test-token', {
         movieId: 42,
+        mediaType: 'movie',
         title: 'Dune',
         posterPath: '/dune.jpg',
         genreIds: [878],
@@ -80,6 +81,7 @@ describe('WatchlistButton', () => {
     const item: WatchlistItem = {
       id: 'w1',
       movieId: 42,
+      mediaType: 'movie',
       title: 'Dune',
       posterPath: '/dune.jpg',
       rating: 3,
@@ -94,6 +96,6 @@ describe('WatchlistButton', () => {
     expect(screen.getByRole('radio', { name: '3 stars', checked: true })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /remove from watchlist/i }));
-    await waitFor(() => expect(removeFromWatchlist).toHaveBeenCalledWith('test-token', 42));
+    await waitFor(() => expect(removeFromWatchlist).toHaveBeenCalledWith('test-token', 42, 'movie'));
   });
 });
