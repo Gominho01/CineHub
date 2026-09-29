@@ -48,6 +48,10 @@ export function backdropUrl(path: string | null, size: "w780" | "w1280" | "origi
   return `${IMAGE_BASE_URL}/${size}${path}`;
 }
 
+export function providerLogoUrl(path: string): string {
+  return `${IMAGE_BASE_URL}/w45${path}`;
+}
+
 export function getNowPlaying(page = 1): Promise<PaginatedResponse<Movie>> {
   return tmdbFetch("/movie/now_playing", { page: String(page) });
 }
@@ -65,7 +69,7 @@ export function searchMovies(query: string, page = 1): Promise<PaginatedResponse
 }
 
 export function getMovieDetails(id: string): Promise<MovieDetails> {
-  return tmdbFetch(`/movie/${id}`, { append_to_response: "credits,videos,similar" });
+  return tmdbFetch(`/movie/${id}`, { append_to_response: "credits,videos,similar,watch/providers" });
 }
 
 export function getGenres(): Promise<{ genres: Genre[] }> {
@@ -102,7 +106,7 @@ export function searchTV(query: string, page = 1): Promise<PaginatedResponse<TVS
 }
 
 export function getTVShowDetails(id: string): Promise<TVShowDetails> {
-  return tmdbFetch(`/tv/${id}`, { append_to_response: "credits,videos,similar" });
+  return tmdbFetch(`/tv/${id}`, { append_to_response: "credits,videos,similar,watch/providers" });
 }
 
 // --- People ---

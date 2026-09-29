@@ -1,6 +1,6 @@
 # CineHub — Movie & TV Explorer
 
-**Status:** ✅ Phase 3 implemented — run `npm run dev` locally to try it (needs a free TMDB API key in `.env`).
+**Status:** ✅ Phase 4 implemented — run `npm run dev` locally to try it (needs a free TMDB API key in `.env`).
 
 ## Overview
 
@@ -20,10 +20,7 @@ The app leans on TMDB for content and imagery — posters, carousels, high-res a
 - **Accounts & watchlist** — JWT auth, add/remove titles, 1–5 star rating per title.
 - **Recommendations** — home carousel based on the most frequent genre across the watchlist; for a logged-out visitor or a user with no genre signal yet, falls back to titles that are both highly rated and genuinely popular (`vote_average` sorted, `vote_count ≥ 1000`).
 - **Search filters** — genre, year, minimum rating, applied on top of TMDB's own search results; Previous/Next pagination.
-
-### Roadmap / stretch goals
-
-- **Watch providers** — "where to stream," already available from the TMDB API.
+- **Watch providers** — "Where to Watch" section (streaming/rent/buy) on movie and TV detail pages, sourced from TMDB.
 
 ## Tech Stack
 
@@ -65,7 +62,7 @@ The app leans on TMDB for content and imagery — posters, carousels, high-res a
 5. **Phase 4 — search experience**
    - Filters on search (genre, year, minimum rating). ✅ done
    - Pagination on search results. ✅ done
-   - Watch providers ("where to stream," already available from the TMDB API).
+   - Watch providers ("where to stream"). ✅ done
 6. **Phase 5 — polish & deploy**
    - Loading skeletons, light/dark theme.
    - Production deploy on Vercel (native Next.js environment, no extra infra needed).
