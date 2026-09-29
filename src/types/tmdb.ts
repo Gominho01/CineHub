@@ -40,6 +40,7 @@ export interface MovieDetails extends Omit<Movie, "genre_ids"> {
     results: Video[];
   };
   similar: PaginatedResponse<Movie>;
+  "watch/providers"?: WatchProvidersResponse;
 }
 
 export interface TVShow {
@@ -64,6 +65,7 @@ export interface TVShowDetails extends Omit<TVShow, "genre_ids"> {
     results: Video[];
   };
   similar: PaginatedResponse<TVShow>;
+  "watch/providers"?: WatchProvidersResponse;
 }
 
 export interface PersonDetails {
@@ -76,6 +78,23 @@ export interface PersonDetails {
   movie_credits: {
     cast: (Movie & { character: string })[];
   };
+}
+
+export interface WatchProvider {
+  provider_id: number;
+  provider_name: string;
+  logo_path: string;
+}
+
+export interface WatchProviderRegion {
+  link: string;
+  flatrate?: WatchProvider[];
+  rent?: WatchProvider[];
+  buy?: WatchProvider[];
+}
+
+export interface WatchProvidersResponse {
+  results: Record<string, WatchProviderRegion>;
 }
 
 export interface PaginatedResponse<T> {

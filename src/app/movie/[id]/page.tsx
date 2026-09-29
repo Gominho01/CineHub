@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Carousel } from "@/components/Carousel";
 import { MovieCard } from "@/components/MovieCard";
 import { WatchlistButton } from "@/components/WatchlistButton";
+import { WatchProviders } from "@/components/WatchProviders";
 import { backdropUrl, getMovieDetails, posterUrl } from "@/lib/tmdb";
 import type { Video } from "@/types/tmdb";
 
@@ -61,6 +62,8 @@ export default async function MovieDetailPage({ params }: { params: Promise<{ id
               genreIds={movie.genres.map((genre) => genre.id)}
             />
           </div>
+
+          <WatchProviders providers={movie["watch/providers"]} />
 
           {movie.credits.cast.length > 0 && (
             <div className="mt-8">

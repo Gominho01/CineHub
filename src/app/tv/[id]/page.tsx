@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Carousel } from "@/components/Carousel";
 import { TVCard } from "@/components/TVCard";
 import { WatchlistButton } from "@/components/WatchlistButton";
+import { WatchProviders } from "@/components/WatchProviders";
 import { backdropUrl, getTVShowDetails, posterUrl } from "@/lib/tmdb";
 import type { Video } from "@/types/tmdb";
 
@@ -63,6 +64,8 @@ export default async function TVShowDetailPage({ params }: { params: Promise<{ i
               genreIds={show.genres.map((genre) => genre.id)}
             />
           </div>
+
+          <WatchProviders providers={show["watch/providers"]} />
 
           {show.credits.cast.length > 0 && (
             <div className="mt-8">
