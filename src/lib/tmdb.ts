@@ -93,6 +93,10 @@ export function getTrendingTV(page = 1): Promise<PaginatedResponse<TVShow>> {
   return tmdbFetch("/trending/tv/week", { page: String(page) });
 }
 
+export function getTVGenres(): Promise<{ genres: Genre[] }> {
+  return tmdbFetch("/genre/tv/list");
+}
+
 export function searchTV(query: string, page = 1): Promise<PaginatedResponse<TVShow>> {
   return tmdbFetch("/search/tv", { query, page: String(page) });
 }

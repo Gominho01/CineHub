@@ -3,9 +3,11 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const push = vi.fn();
+let currentSearchParams = new URLSearchParams();
 
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ push }),
+  useSearchParams: () => currentSearchParams,
 }));
 
 import { SearchBar } from "../SearchBar";
@@ -13,6 +15,7 @@ import { SearchBar } from "../SearchBar";
 describe("SearchBar", () => {
   beforeEach(() => {
     push.mockClear();
+    currentSearchParams = new URLSearchParams();
   });
 
   it("navigates to the search results page on submit", async () => {
@@ -38,5 +41,16 @@ describe("SearchBar", () => {
     render(<SearchBar initialQuery="matrix" />);
 
     expect(screen.getByRole("searchbox")).toHaveValue("matrix");
+  });
+
+  it("preserves existing filters and resets the page when submitting a new query", async () => {
+    currentSearchParams = new URLSearchParams("genre=28&page=3");
+    const user = userEvent.setup();
+    render(<SearchBar />);
+
+    await user.type(screen.getByRole("searchbox"), "dune");
+    await user.click(screen.getByRole("button", { name: "Search" }));
+
+    expect(push).toHaveBeenCalledWith("/search?genre=28&q=dune");
   });
 });
