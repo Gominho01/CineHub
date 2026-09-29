@@ -1,17 +1,21 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export function SearchBar({ initialQuery = "" }: { initialQuery?: string }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [query, setQuery] = useState(initialQuery);
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     const trimmed = query.trim();
     if (!trimmed) return;
-    router.push(`/search?q=${encodeURIComponent(trimmed)}`);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("q", trimmed);
+    params.delete("page");
+    router.push(`/search?${params.toString()}`);
   }
 
   return (
