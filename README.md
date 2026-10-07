@@ -64,8 +64,12 @@ The app leans on TMDB for content and imagery — posters, carousels, high-res a
    - Pagination on search results. ✅ done
    - Watch providers ("where to stream"). ✅ done
 6. **Phase 5 — polish & deploy**
-   - Loading skeletons, light/dark theme.
+   - Loading skeletons (`loading.tsx` per route, plus a watchlist-button fix that was flashing the wrong state before its own query resolved). ✅ done
    - Production deploy on Vercel (native Next.js environment, no extra infra needed).
+
+### Deferred
+
+- **Light/dark theme** — the app is intentionally dark-only for now. Adding a real light mode means converting ~100 hardcoded `white`/`black`-opacity Tailwind classes to semantic tokens that actually invert, not just a toggle — a bigger job than it looks, deferred as a stretch goal rather than rushed into Phase 5.
 
 ## Project Structure (scaffold only, no logic yet)
 

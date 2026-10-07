@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
 import { listWatchlist, rateWatchlistItem, removeFromWatchlist } from '@/lib/api-client';
+import { SkeletonGrid } from '@/components/Skeleton';
 import { posterUrl } from '@/lib/tmdb';
 import { useAuthStore } from '@/store/auth';
 
@@ -57,7 +58,7 @@ export default function WatchlistPage() {
     <div>
       <h1 className="mb-6 text-2xl font-semibold">My Watchlist</h1>
 
-      {watchlistQuery.isLoading && <p className="text-white/60">Loading…</p>}
+      {watchlistQuery.isLoading && <SkeletonGrid />}
       {!watchlistQuery.isLoading && items.length === 0 && (
         <p className="text-white/60">Nothing here yet — add a title from its detail page.</p>
       )}
