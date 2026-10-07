@@ -58,6 +58,10 @@ export function WatchlistButton({ movieId, mediaType, title, posterPath, genreId
     );
   }
 
+  if (watchlistQuery.isLoading) {
+    return <div className="h-9 w-44 animate-pulse rounded-md bg-white/5" />;
+  }
+
   return (
     <div className="flex flex-col gap-2">
       <button
